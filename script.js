@@ -2,20 +2,24 @@ const Gameboard = (function() {
     const board = Array(9).fill(0);
 
     const getBoard = () => {
-        console.table(board);
+        const cells = document.querySelectorAll('td');
+        for (let i = 0; i < cells.length; ++i) {
+            cells[i].textContent = board[i];
+        }
     };
 
     const markBoard = (cell, player) => {
         board[cell] = player.getLetter();
-        checkResult(cell, player);
+        getBoard();
+        return checkResult(cell, player);
     };
 
     function checkResult(cell, player) {
         if (checkRow(cell) || checkCol(cell)) {
             console.log(player.getName() + ' wins!');
+            return true;
         } else {
-            getBoard();
-            Game.takeTurn();
+            return false;
         }
     }
 
@@ -64,28 +68,33 @@ const Gameboard = (function() {
     }
 
     return {getBoard, markBoard};
-});
+})();
 
 const Game = (function() {
     const p1 = Player("Player 1", "X"); // let players choose these later
     const p2 = Player("Player 2", "O"); // let players choose these later
 
-    function takeTurn() {
+    const playRound = () => {
+        if (!takeTurn(p1)) {
+            if (!takeTurn(p2)) {
+                playRound();
+            }
+        }
+    };
+
+    function takeTurn(player) {
       
-        console.log(p1.getName() + ' select a square: ');
-        const move = prompt('Enter coordinates:');
+        const move = Number(prompt(player.getName() + ' enter your move:'));
 
-        Gameboard.markBoard(move, p1);
-
-
-
+        return Gameboard.markBoard(move, player);
     }
 
-});
+    return {playRound};
+})();
 
-function Player(name, letter) {
-    const name = name;
-    const letter = letter;
+function Player(nameIn, letterIn) {
+    const name = nameIn;
+    const letter = letterIn;
 
     const getName = () => name;
     const getLetter = () => letter;
@@ -95,4 +104,4 @@ function Player(name, letter) {
 
 // AND BEGIN!
 
-Game.takeTurn();
+Game.playRound();
