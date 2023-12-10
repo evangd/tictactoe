@@ -1,5 +1,5 @@
 const Gameboard = (function() {
-    const board = Array(9).fill(0);
+    const board = Array(9).fill(' ');
 
     const getBoard = () => {
         const cells = document.querySelectorAll('button');
@@ -75,30 +75,14 @@ const Game = (function() {
     const p2 = Player("Player 2", "O"); // let players choose these later
 
     const playRound = () => {
-        
-        const squares = document.querySelectorAll('button');
 
-        let waitForClick = new Promise(function(resolve, reject) {
-            for (let i = 0; i < squares.length; ++i) {
-                squares[i].addEventListener('click', function(e) {
-                    resolve(e.target.dataset.coord);
-                }, {once: true});
-            }
-        });
+        let waitForClick = new Promise(addClicks);
 
         waitForClick.then((result) => {
-            console.log(result);
             
             if (!Gameboard.markBoard(result, p1)) {
 
-                let waitForClick2 = new Promise(function(resolve, reject) {
-                    for (let i = 0; i < squares.length; ++i) {
-                        squares[i].addEventListener('click', function(e) {
-                            resolve(e.target.dataset.coord);
-                        }, {once: true});
-                    }
-                });
-        
+                let waitForClick2 = new Promise(addClicks);
         
                 waitForClick2.then((result2) => {
                     if (!Gameboard.markBoard(result2, p2)) {
@@ -110,24 +94,13 @@ const Game = (function() {
         });
     };
 
-    function takeTurn(player) {
-        console.log('takeTurn called');
-      
+    function addClicks(resolve, reject) {
         const squares = document.querySelectorAll('button');
-
-        let waitForClick = new Promise(function(resolve, reject) {
-            for (let i = 0; i < squares.length; ++i) {
-                squares[i].addEventListener('click', function(e) {
-                    resolve(e.target.dataset.coord);
-                }, {once: true});
-            }
-        });
-
-
-        waitForClick.then(() => {
-            console.log('promise resolved');
-            return Gameboard.markBoard(result, player);
-        });
+        for (let i = 0; i < squares.length; ++i) {
+            squares[i].addEventListener('click', function(e) {
+                resolve(e.target.dataset.coord);
+            });
+        }
     }
 
     return {playRound};
