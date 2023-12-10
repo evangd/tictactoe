@@ -75,23 +75,59 @@ const Game = (function() {
     const p2 = Player("Player 2", "O"); // let players choose these later
 
     const playRound = () => {
-        if (!takeTurn(p1)) {
-            if (!takeTurn(p2)) {
-                playRound();
+        
+        const squares = document.querySelectorAll('button');
+
+        let waitForClick = new Promise(function(resolve, reject) {
+            for (let i = 0; i < squares.length; ++i) {
+                squares[i].addEventListener('click', function(e) {
+                    resolve(e.target.dataset.coord);
+                }, {once: true});
             }
-        }
+        });
+
+        waitForClick.then((result) => {
+            console.log(result);
+            
+            if (!Gameboard.markBoard(result, p1)) {
+
+                let waitForClick2 = new Promise(function(resolve, reject) {
+                    for (let i = 0; i < squares.length; ++i) {
+                        squares[i].addEventListener('click', function(e) {
+                            resolve(e.target.dataset.coord);
+                        }, {once: true});
+                    }
+                });
+        
+        
+                waitForClick2.then((result2) => {
+                    if (!Gameboard.markBoard(result2, p2)) {
+                        playRound();
+                    }
+                });
+
+            }
+        });
     };
 
     function takeTurn(player) {
-        console.log('hello');
+        console.log('takeTurn called');
       
         const squares = document.querySelectorAll('button');
 
-        for (let i = 0; i < squares.length; ++i) {
-            /*squares[i].addEventListener('click', function() {
-                return Gameboard.markBoard(squares[i].dataset.coord, player);
-            });*/
-        }
+        let waitForClick = new Promise(function(resolve, reject) {
+            for (let i = 0; i < squares.length; ++i) {
+                squares[i].addEventListener('click', function(e) {
+                    resolve(e.target.dataset.coord);
+                }, {once: true});
+            }
+        });
+
+
+        waitForClick.then(() => {
+            console.log('promise resolved');
+            return Gameboard.markBoard(result, player);
+        });
     }
 
     return {playRound};

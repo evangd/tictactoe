@@ -18,6 +18,7 @@ html, body {
     background-color: white;
     border: 5px solid black;
     cursor: pointer;
+    font-size: 100px;
 }
 
 #gameboard button:hover {
