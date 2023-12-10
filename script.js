@@ -2,11 +2,15 @@ const Gameboard = (function() {
     const board = Array(9).fill(' ');
 
     const markBoard = () => {
-        const cells = document.querySelectorAll('button');
+        const cells = document.querySelectorAll('#gameboard button');
         for (let i = 0; i < cells.length; ++i) {
             cells[i].textContent = board[i];
         }
     };
+
+    const wipeBoard = () => {
+        board.fill(' ');
+    }
 
     const takeTurn = (cell, player) => {
         board[cell] = player.getLetter();
@@ -84,7 +88,7 @@ const Gameboard = (function() {
         }
     }
 
-    return {markBoard, takeTurn};
+    return {markBoard, wipeBoard, takeTurn};
 })();
 
 const Game = (function() {
@@ -127,15 +131,18 @@ const Game = (function() {
     }
 
     function declareWinner(player) {
-        const banner = document.createElement('div');
-        const message = document.createElement('h2');
-        const playAgain = document.createElement('button');
+        const banner = document.querySelector('dialog.banner');
+        const message = banner.querySelector('h2');
+        const playAgain = document.querySelector('.banner button');
         message.textContent = player.getName() + ' wins!';
-        playAgain.textContent = 'Play Again';
-        banner.classList.add('banner');
-        banner.appendChild(message);
-        banner.appendChild(playAgain);
-        document.body.appendChild(banner);
+        banner.showModal();
+
+        playAgain.addEventListener('click', function() {
+            Gameboard.wipeBoard();
+            Gameboard.markBoard();
+            banner.close();
+            playRound();
+        });
     }
 
     return {playRound};
