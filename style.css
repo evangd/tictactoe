@@ -24,3 +24,19 @@ html, body {
 #gameboard button:hover {
     background-color: #eee;
 }
+
+.banner {
+    position: absolute;
+    width: 200px;
+    height: 100px;
+    top: calc(50dvh - 50px);
+    left: calc(50vw - 100px);
+    text-align: center;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px black;
+}
+
+.banner h2 {
+    vertical-align: middle;
+}
