@@ -2,7 +2,7 @@ const Gameboard = (function() {
     const board = Array(9).fill(0);
 
     const getBoard = () => {
-        const cells = document.querySelectorAll('td');
+        const cells = document.querySelectorAll('button');
         for (let i = 0; i < cells.length; ++i) {
             cells[i].textContent = board[i];
         }
@@ -83,10 +83,15 @@ const Game = (function() {
     };
 
     function takeTurn(player) {
+        console.log('hello');
       
-        const move = Number(prompt(player.getName() + ' enter your move:'));
+        const squares = document.querySelectorAll('button');
 
-        return Gameboard.markBoard(move, player);
+        for (let i = 0; i < squares.length; ++i) {
+            /*squares[i].addEventListener('click', function() {
+                return Gameboard.markBoard(squares[i].dataset.coord, player);
+            });*/
+        }
     }
 
     return {playRound};

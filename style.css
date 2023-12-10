@@ -1,0 +1,25 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+#gameboard {
+    height: 100dvh;
+    width: 100dvh;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    box-sizing: border-box;
+    border: 5px solid black;
+}
+
+#gameboard button {
+    background-color: white;
+    border: 5px solid black;
+    cursor: pointer;
+}
+
+#gameboard button:hover {
+    background-color: #eee;
+}
