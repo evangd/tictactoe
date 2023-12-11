@@ -19,7 +19,6 @@ const Gameboard = (function() {
     };
 
     function checkResult(cell, player) {
-        console.log('checkDiag returns: ' + checkDiag(cell));
         if (checkRow(cell) || checkCol(cell) || checkDiag(cell)) {
             return true;
         } else {
@@ -88,12 +87,22 @@ const Gameboard = (function() {
         }
     }
 
-    return {markBoard, wipeBoard, takeTurn};
+    function checkTie() {
+        for (let i = 0; i < board.length; ++i) {
+            if (board[i] !== 'X' && board[i] !== 'O') return false;
+        }
+
+        return true;
+    }
+
+    return {markBoard, wipeBoard, takeTurn, checkTie};
 })();
 
 const Game = (function() {
     const p1 = Player("Player 1", "X"); // let players choose these later
     const p2 = Player("Player 2", "O"); // let players choose these later
+    const p1Turn = document.querySelector('.turn.p1');
+    const p2Turn = document.querySelector('.turn.p2');
 
     const playRound = () => {
 
@@ -102,11 +111,19 @@ const Game = (function() {
         waitForClick.then((result) => {
             
             if (!Gameboard.takeTurn(result, p1)) {
+                p1Turn.style.visibility = 'hidden';
+                p2Turn.style.visibility = 'visible';
+
+                if (Gameboard.checkTie()) {
+                    declareWinner('tie');
+                }
 
                 let waitForClick2 = new Promise(addClicks);
         
                 waitForClick2.then((result2) => {
                     if (!Gameboard.takeTurn(result2, p2)) {
+                        p1Turn.style.visibility = 'visible';
+                        p2Turn.style.visibility = 'hidden';
                         playRound();
                     } else {
                         declareWinner(p2);
@@ -134,13 +151,23 @@ const Game = (function() {
         const banner = document.querySelector('dialog.banner');
         const message = banner.querySelector('h2');
         const playAgain = document.querySelector('.banner button');
-        message.textContent = player.getName() + ' wins!';
+
+        p1Turn.style.visibility = 'hidden';
+        p2Turn.style.visibility = 'hidden';
+
+        if (player === 'tie') {
+            message.textContent = 'Tie game!';
+        } else {
+            message.textContent = player.getName() + ' wins!';
+        }
+        
         banner.showModal();
 
         playAgain.addEventListener('click', function() {
             Gameboard.wipeBoard();
             Gameboard.markBoard();
             banner.close();
+            p1Turn.style.visibility = 'visible';
             playRound();
         });
     }

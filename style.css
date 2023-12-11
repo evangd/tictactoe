@@ -1,12 +1,21 @@
+:root {
+    font-family: 'Segoe UI', sans-serif;
+}
+
 html, body {
     margin: 0;
     padding: 0;
 }
 
+body {
+    display: grid;
+    grid-template-columns: 1fr 98dvh 1fr;
+}
+
 #gameboard {
-    height: 100dvh;
-    width: 100dvh;
-    margin: auto;
+    height: 98dvh;
+    width: 98dvh;
+    margin: 1dvh auto;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
@@ -15,14 +24,14 @@ html, body {
 }
 
 #gameboard button {
-    background-color: white;
+    background-color: lightgoldenrodyellow;
     border: 5px solid black;
     cursor: pointer;
     font-size: 100px;
 }
 
 #gameboard button:hover {
-    background-color: #eee;
+    background-color: darkkhaki;
 }
 
 .banner {
@@ -35,4 +44,25 @@ html, body {
 
 .banner button {
     cursor: pointer;
+}
+
+.turn {
+    text-align: center;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.turn p {
+    margin: 0;
+    font-size: 20px;
+}
+
+.turn p:last-child {
+    font-size: 100px;
+}
+
+.p2 {
+    visibility: hidden;
 }

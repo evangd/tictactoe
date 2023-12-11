@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="turn p1">
+        <p>Player 1's turn</p>
+        <p>X</p>
+    </div>
     <div id="gameboard">
         <button data-coord="0"> </button>
         <button data-coord="1"> </button>
@@ -18,6 +22,11 @@
         <button data-coord="7"> </button>
         <button data-coord="8"> </button>
     </div>
+    <div class="turn p2">
+        <p>Player 2's turn</p>
+        <p>O</p>
+    </div>
+    <!-- Popup for game end -->
     <dialog class="banner" closed>
         <h2></h2>
         <button>Play Again</button>
