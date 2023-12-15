@@ -1,6 +1,6 @@
 :root {
     font-family: 'Segoe UI', sans-serif;
-    --board-width: min(100vw, 98 dvh);
+    --board-size: min(98vw, 98dvh);
 }
 
 html, body {
@@ -10,12 +10,13 @@ html, body {
 
 body {
     display: grid;
-    grid-template-columns: 1fr min(98vw, 98dvh) 1fr;
+    height: 100dvh;
+    grid-template-columns: 1fr var(--board-size) 1fr;
 }
 
 #gameboard {
-    width: min(98vw, 98dvh);
-    height: min(98vw, 98dvh);
+    width: var(--board-size);
+    height: var(--board-size);
     margin: 1dvh auto;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -67,4 +68,27 @@ body {
 
 .p2 {
     visibility: hidden;
+}
+
+@media screen and (max-width: 640px) {
+    body {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: var(--board-size) auto;
+        gap: 20px;
+    }
+
+    #gameboard {
+        grid-column: 1 / -1;
+        grid-row: 1 / 2;
+    }
+
+    .left {
+        grid-column: 1 / 2;
+        grid-row: 2 / -1;
+    }
+
+    .right {
+        grid-column: 2 / -1;
+        grid-row: 2 / -1;
+    }
 }
