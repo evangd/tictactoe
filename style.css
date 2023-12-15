@@ -31,6 +31,8 @@ body {
     cursor: pointer;
     font-size: min(25vw, 25vh);
     font-weight: normal;
+    color: black;
+    padding: 0;
 }
 
 #gameboard button:hover {
