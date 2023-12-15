@@ -29,7 +29,7 @@ body {
     background-color: lightgoldenrodyellow;
     border: 5px solid black;
     cursor: pointer;
-    font-size: 25vh;
+    font-size: min(25vw, 25vh);
     font-weight: normal;
 }
 
