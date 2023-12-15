@@ -86,6 +86,7 @@ body {
 
     #gameboard button {
         font-size: 22vw;
+        font-weight: bold;
     }
 
     .left {
